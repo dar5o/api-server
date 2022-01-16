@@ -16,13 +16,13 @@ router.delete('/games/:id', deleteOneGame);
 // Restful Router Handlers
 async function getGames(req, res) {
   let allGames = await Games.findAll();
-  res.status(200).json(allGames);
+  res.status(200).send(allGames);
 }
 
 async function oneGame(req, res) {
   const id = ~~req.params.id;
   let oneGame = await Games.findOne({ where: {id: id}});
-  res.status(200).sebd(oneGame);
+  res.status(200).send(oneGame);
 }
 
 async function createOneGame(req, res) {
@@ -42,7 +42,7 @@ async function updateOneGame(req, res) {
 async function deleteOneGame(req, res) {
   const id = ~~req.params.id;
   let deletedGame = await Games.destroy({ where: {id:id}});
-  res.status(200).json(deletedGame);
+  res.status(200).send(deletedGame);
 }
 
 module.exports = router;
