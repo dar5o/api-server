@@ -10,8 +10,9 @@ app.use(express.json());
 // Import handlers
 const notFound = require('./error-handlers/404');
 const error = require('./error-handlers/500');
-const clothesRouter = require('./routes/clothes');
+const gamesRouter = require('./routes/games');
 const foodRouter = require('./routes/food');
+const apiRouter = require('./routes/api.js');
 
 // Import Middleware
 const logger = require('./middleware/logger');
@@ -26,8 +27,9 @@ app.get('/bad', (req, res, next) => {
 
 
 // DB Routes
-app.use(clothesRouter);
+app.use(gamesRouter);
 app.use(foodRouter);
+app.use(apiRouter);
 
 // Use Handlers
 app.use('*', notFound);
