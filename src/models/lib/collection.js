@@ -1,76 +1,54 @@
-'use strict'
+'use strict';
 
-/** 
- * A collection interface for CRUD operations with JSON & Sequelize
-*/
+//https://sequelize.org/master/
 
 class Collection {
   constructor(model) {
     this.model = model;
+  }
+
+async read(id, options = {}) {
+  try {
+    let records = null;
+    if(id) {
+      options['where'] = {id : id};
+      records = await this.model.findOne(options);
+    } else {
+      records = await this.model.findAll(options);
+    }
+    return records;
+  } catch (error) {
+    return error;
+  }
 }
 
-  async create(json) {
-    try {
-      let createdRecord = await this.model.create(json)
-      return createdRecord
-    } catch(error) {
-      console.error(`Error creating data for model: ${this.model.name}`)
-      return error
+async create(json) {
+  try {
+    let record = await this.model.create(json);
+    return record;
+  } catch (error) {
+    return error;
+  }
+}
+
+async Update(id, json) {
+  try{
+    let record = await this.model.findOne({where: {id}});
+    let updatedRecord = await record.update(json);
+    return updatedRecord;
+  } catch(error) {
+    return error;
     }
   }
-
-  async update(id, json) {
-    try {
-      if (!id) throw new Error(`No record ID provided for model: ${this.model.name}`);
-      
-      let record  = await this.model.findOne({ where: { id }})
-      let updatedRecord = await record.update(json)
-      return updatedRecord
-    } catch(error) {
-      console.error(`Error updating data for model: ${this.model.name}`)
-      return error
-    }
-  }
-
-  async retrieve(id) {
-    let record = null
-    try {
-      if(id) {
-        record = await this.model.findOne({ where: { id }})
-      } else {
-        record = await this.model.findAll({})
-      }
-      return record
-
-    } catch(error) {
-      console.error(`Error retrieving data for model: ${this.model.name}`)
-      return error
-    }
-  }
-
+  
   async delete(id) {
     try {
-      if (!id) throw new Error(`No record ID provided for model: ${this.model.name}`);
-
-      let deletedRecord = await this.model.destroy({ where: { id }})
-      return deletedRecord
+      let deletedRows = await this.model.destroy({wehere: {id}});
+      return deletedRows;
     } catch (error) {
-      console.error(`Error deleting data for model: ${this.model.name}`)
-      return error
-    }
-  }
-
-  async bulkCreate(objArr) {
-    try {
-      let data = await this.model.bulkCreate(objArr)
-      return data
-    } catch (error) {
-      console.error(`Error bulk creating data for model: ${this.model.name}`)
-      return error
+      return error;
     }
   }
 }
 
-
-
-module.exports = Collection
+module.exports = Collection;
