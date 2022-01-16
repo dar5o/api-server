@@ -1,8 +1,7 @@
 'use strict';
 
-module.exports = (req, res) => {
-  res.status(404).send({
-    error: 404,
-    message: 'Not Found',
-  });
+module.exports = (req, res) => { 
+  console.log('Error: 404');
+  res.status(404);
+  res.end();
 };
