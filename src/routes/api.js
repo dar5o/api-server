@@ -5,7 +5,7 @@ const router = express.Router();
 
 const { Games, Foods } = require('../models');
 
-const Collection = require('../models/lin/collection.js');
+const Collection = require('../models/lib/collection.js');
 
 const modelMap = {
   Games: new Collection(Games),
